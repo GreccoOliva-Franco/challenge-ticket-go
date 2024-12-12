@@ -19,7 +19,8 @@ class RatingFactory extends Factory
         return [
             'user_name' => fake()->name(),
             'text' => fake()->realText(),
-            'stars' => fake()->numberBetween(1, 5)
+            'stars' => fake()->numberBetween(1, 5),
+            'product_id' => 1
         ];
     }
 }

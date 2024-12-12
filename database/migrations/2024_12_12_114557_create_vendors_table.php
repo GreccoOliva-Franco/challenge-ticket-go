@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

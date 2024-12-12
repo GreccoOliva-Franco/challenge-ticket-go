@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->foreignIdFor(Vendor::class);
 
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

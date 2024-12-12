@@ -13,24 +13,28 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products';
+
     protected $with = [
         'ratings',
-        'vendor'
+        'vendor',
     ];
 
     public $incrementing = true;
-    public $timestamps = true;
+
+    public $timestamps = false;
 
     public $fillable = [
         'name',
         'vendor_id',
     ];
 
-    public function vendor(): BelongsTo {
+    public function vendor(): BelongsTo
+    {
         return $this->belongsTo(Vendor::class);
     }
 
-    public function ratings(): HasMany {
+    public function ratings(): HasMany
+    {
         return $this->hasMany(Rating::class);
     }
 }

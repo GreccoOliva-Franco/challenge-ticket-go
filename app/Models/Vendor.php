@@ -14,7 +14,7 @@ class Vendor extends Model
     protected $table = 'vendors';
 
     public $incrementing = true;
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $fillable = [
         'name'

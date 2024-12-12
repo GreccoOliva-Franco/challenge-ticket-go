@@ -14,7 +14,7 @@ class Rating extends Model
     protected $table = 'ratings';
 
     public $incrementing = true;
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $fillable = [
         'user_name',
