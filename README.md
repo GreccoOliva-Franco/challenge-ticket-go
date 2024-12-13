@@ -14,18 +14,31 @@ Explained in dedicated file: `./Challenge rules.pdf`
 ## Setup
 
 Run each step at a time:
-1. Set up SQLite Database file
+
+1. Set .env file
+
+```bash
+cp .env.example .env
+```
+
+2. Set SQLite Database
 
 ```bash
 "" > ./database/database.sqlite
 ```
 
-2. Install dependencies
+3. Set Laravel's key
+
+```bash
+php artisan key:generate
+```
+
+4. Install dependencies and generate Laravel's API_KEY
 ```bash
 composer install
 ```
 
-3. Pick a seeder and run migrations (takes a while):
+5. Pick a seeder and run migrations (takes a while):
 
 - Simple seed (ReducedTicketGoSeeder):
 
@@ -58,4 +71,10 @@ php artisan test
 php artisan serve
 ```
 
-Swagger documentation in endpoint `http://localhost:8000/api/documentation`
+<!-- Swagger documentation in endpoint [http://localhost:8000/api/documentation` -->
+
+## Documentation
+
+(REQUIREMENT: Server should be deployed)
+
+Provided by Swagger in a dedicated [endpoint](http://localhost:8000/api/documentation)
