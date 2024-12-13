@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Seeders;
+namespace Database\Seeders;
 
 use App\Models\Vendor;
 use App\Models\Product;
+use Illuminate\Database\Seeder;
 
-class VendorProductRatingSeeder implements TestSeeder {
+class VendorProductRatingSeeder extends Seeder {
     private readonly int $nVendors;
     private readonly int $nProductsPerVendor;
     private readonly int $nRatingsPerProduct;

@@ -4,16 +4,20 @@ namespace Tests\Products;
 
 use App\Models\Product;
 use App\Models\Vendor;
-use Tests\Seeders\VendorProductRatingSeeder;
-
+use Database\Seeders\VendorProductRatingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\get;
 use function Tests\Helpers\endpointBuilder;
 
-class TestConditions {
+class TestConditions
+{
     public const N_VENDORS = 2;
+
     public const N_PRODUCTS_PER_VENDOR = 2;
+
     public const N_RATINGS_PER_PRODUCT = 3;
+
     public const REST_API_HEADERS = ['accept' => 'application/json'];
 }
 
@@ -26,9 +30,13 @@ beforeEach(function () {
     ))->run();
 });
 
-function endpoint($extend = '') { return endpointBuilder('/api/products')($extend); }
+function endpoint($extend = '')
+{
+    return endpointBuilder('/api/products')($extend);
+}
 
-function responseOkWithoutParams() {
+function responseOkWithoutParams()
+{
     return function () {
         $response = get(endpoint());
 
@@ -67,7 +75,7 @@ describe('Products - Get products', function () {
                     $name = explode(' ', $product->name)[0];
 
                     $response = get(endpoint("?name=$name"), TestConditions::REST_API_HEADERS);
-                    
+
                     $response->assertStatus(200);
                     foreach ($response['data'] as $jsonProduct) {
                         expect(strtolower($jsonProduct['name']))->toContain(strtolower($name));

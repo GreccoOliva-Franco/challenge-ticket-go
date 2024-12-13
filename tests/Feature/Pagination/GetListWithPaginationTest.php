@@ -2,8 +2,8 @@
 
 namespace Tests\Pagination;
 
+use Database\Seeders\VendorProductRatingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Seeders\VendorProductRatingSeeder;
 
 use function Pest\Laravel\get;
 use function Tests\Helpers\endpointBuilder;
