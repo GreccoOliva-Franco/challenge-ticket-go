@@ -74,6 +74,7 @@ php artisan serve
 <!-- Swagger documentation in endpoint [http://localhost:8000/api/documentation` -->
 
 ## Documentation
+(In progress)
 
 (REQUIREMENT: Server should be deployed)
 
