@@ -74,8 +74,7 @@ php artisan serve
 <!-- Swagger documentation in endpoint [http://localhost:8000/api/documentation` -->
 
 ## Documentation
-(In progress)
+REQUIREMENTS:
+- Server should be deployed
 
-(REQUIREMENT: Server should be deployed)
-
-Provided by Swagger in a dedicated [endpoint](http://localhost:8000/api/documentation)
+Provided by Swagger in a dedicated [endpoint](http://localhost:8000/swagger)

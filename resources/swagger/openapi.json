@@ -1,0 +1,220 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Product API",
+    "description": "API for managing product data.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/products": {
+      "get": {
+        "summary": "Retrieve a list of products",
+        "description": "Returns a list of all available products in the system.",
+        "operationId": "getProducts",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination targeted page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 10
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 15,
+              "example": 15
+            }
+          },
+          {
+            "name": "vendor_id",
+            "in": "query",
+            "description": "Get products for specific vendor ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 123
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Get products for a name containing this value",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "some text"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of products.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ProductResource"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "properties": {
+              "current_page": {
+                "type": "integer",
+                "example": 10
+              },
+              "from": {
+                "type": "integer",
+                "example": 1
+              },
+              "path": {
+                "type": "string",
+                "example": "localhost/api/products"
+              },
+              "per_page": {
+                "type": "integer",
+                "example": 4
+              },
+              "to": {
+                "type": "integer",
+                "example": 4
+              }
+            }
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "first": {
+                "type": "string",
+                "example": "localhost/api/products?page=1&per_page=4"
+              },
+              "last": {
+                "type": "string",
+                "example": "localhost/api/products?page=14&per_page=4"
+              },
+              "prev": {
+                "type": "string",
+                "example": "localhost/api/products?page=9&per_page=4"
+              },
+              "next": {
+                "type": "string",
+                "example": "localhost/api/products?page=11&per_page=4"
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ProductResource": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sample product"
+          },
+          "vendor": {
+            "type": "string",
+            "example": "Jhon Doe"
+          },
+          "ratings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RatingResource"
+            }
+          }
+        }
+      },
+      "RatingResource": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jane Smith"
+          },
+          "text": {
+            "type": "string",
+            "example": "Great product!"
+          },
+          "rating": {
+            "type": "integer",
+            "example": 4
+          }
+        }
+      },
+      "BadRequestErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object"
+          }
+        },
+        "example": {
+          "message": "The page field must be at least 1.",
+          "errors": {
+            "page": [
+              "The page field must be at least 1."
+            ]
+          }
+        }
+      }
+    }
+  }
+}
