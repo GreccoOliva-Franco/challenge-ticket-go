@@ -17,6 +17,14 @@ class TestConditions
     public const N_RATINGS_PER_PRODUCT = 3;
 
     public const REST_API_HEADERS = ['Accept' => 'application/json'];
+
+    public const SUCCESSFUL_REQUEST_PAGINATION_OUTPUT_KEYS = ['data', 'meta', 'links'];
+
+    public const INVALID_REQUEST_PAGINATION_OUTPUT_KEYS = ['message', 'errors'];
+
+    public const META_SUBKEYS = ['current_page', 'from', 'path', 'per_page', 'to'];
+
+    public const LINKS_SUBKEYS = ['first', 'last', 'prev', 'next'];
 }
 
 uses(RefreshDatabase::class);
@@ -123,8 +131,6 @@ describe('Pagination - Get list', function () {
                         $response = get(endpoint("?per_page=$per_page"), TestConditions::REST_API_HEADERS);
 
                         $response->assertStatus(422);
-                        expect($response->json())->toHaveKeys(['message', 'errors']);
-                        // dd($response->json());
                         expect($response['message'])->toBeString()
                             ->toBe($message);
                         expect($response['errors'])->toHaveKeys(['per_page']);
@@ -133,6 +139,30 @@ describe('Pagination - Get list', function () {
                     }
                 });
             });
+        });
+    });
+
+    describe('Response', function () {
+        it('should match valid output format when successful', function () {
+            $response = get(endpoint(), TestConditions::REST_API_HEADERS);
+
+            $response->assertStatus(200);
+            expect($response->json())->toHaveKeys(TestConditions::SUCCESSFUL_REQUEST_PAGINATION_OUTPUT_KEYS);
+            expect($response->json()['data'])->toBeArray();
+            expect($response->json()['meta'])->toHaveKeys(TestConditions::META_SUBKEYS);
+            expect($response->json()['links'])->toHaveKeys(TestConditions::LINKS_SUBKEYS);
+        });
+
+        it('should match invalid output format when invalid', function () {
+            $response = get(endpoint('?page=-1'), TestConditions::REST_API_HEADERS); // force invalid request
+
+            $response->assertStatus(422);
+            expect($response->json())->toHaveKeys(TestConditions::INVALID_REQUEST_PAGINATION_OUTPUT_KEYS);
+            expect($response->json()['message'])->toBeString();
+            expect($response->json()['errors'])->toBeArray()
+                ->toHaveLength(1);
+            expect($response->json()['errors']['page'])->toBeArray()
+                ->toHaveLength(1);
         });
     });
 });
